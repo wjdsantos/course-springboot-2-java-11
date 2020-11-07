@@ -8,38 +8,38 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-@Entity //Mapeamento relacional do JPA
+@Entity // Mapeamento relacional do JPA
 @Table(name = "tb_product")
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id													//Anotation indicando o campo chave da tabela
-	@GeneratedValue(strategy = GenerationType.IDENTITY)  //Anotation indicando que esse campo deve ser autonumerado
+	@Id // Anotation indicando o campo chave da tabela
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Anotation indicando que esse campo deve ser autonumerado
 	private Long id;
 	private String name;
 	private String description;
 	private Double price;
 	private String imgUrl;
-	
 
-	//Associações
-	//@ManyToOne(mappedBy = "categories"
-	//JoinColumn(name = categories_id)
-	@Transient
+	// Associações
+	@ManyToMany
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
-	
-	//@JsonIgnore
-	//@OneToMany(mappedBy = "items"
-	//JoinColumn(name = items_id)
-	//Private List<Order> orders = new ArrayList<>();
-	
+
+	// @JsonIgnore
+	// @OneToMany(mappedBy = "items"
+	// JoinColumn(name = items_id)
+	// Private List<Order> orders = new ArrayList<>();
+
 	public Product() {
 	}
-	
+
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
 		super();
 		this.id = id;
@@ -92,7 +92,7 @@ public class Product implements Serializable {
 	public Set<Category> getCategories() {
 		return categories;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
