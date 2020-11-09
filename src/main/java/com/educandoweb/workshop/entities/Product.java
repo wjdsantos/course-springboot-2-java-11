@@ -31,6 +31,7 @@ public class Product implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
+	//Sobre a anotation 'JoinTable': Nela eu declaro o nome da tabela de associação e as chaves estrangeiras entre as tabelas envolvidas
 
 	// @JsonIgnore
 	// @OneToMany(mappedBy = "items"

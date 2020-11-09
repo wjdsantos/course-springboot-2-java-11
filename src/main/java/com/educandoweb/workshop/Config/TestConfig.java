@@ -58,7 +58,7 @@ public class TestConfig implements CommandLineRunner {
 		p4.getCategories().add(cat3);
 		p5.getCategories().add(cat2);
 		
-		//Salvando as associações
+		//Salvando as associações no paradigma relacional que é o do banco de dados
 		productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
 		
 		
