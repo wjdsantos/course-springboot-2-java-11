@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.educandoweb.workshop.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_order_item")
@@ -15,7 +16,7 @@ public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private OrderItemPK id;  //Atributo identificador que é o correspondente a chave primária
+	private OrderItemPK id = new OrderItemPK();  //Atributo identificador que é o correspondente a chave primária
 	
 	private Integer quantity;
 	private Double price;
@@ -23,7 +24,7 @@ public class OrderItem implements Serializable {
 	public OrderItem() {
 	}
 	
-	//Embora eu não tenha o Oder e Product como atributos para o mundo 
+	//Embora eu não tenha o Order e Product como atributos, para o mundo 
 	//exterior eu não vou ter um getId com um número composto(Produto+Ordem)
 	// vai ter que ser solicitado um e depois o outro
 	public OrderItem(Order order, Product product, Integer quantity, Double price) {
@@ -34,6 +35,7 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 	
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
