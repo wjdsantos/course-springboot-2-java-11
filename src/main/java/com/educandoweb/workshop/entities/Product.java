@@ -11,7 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity // Mapeamento relacional do JPA
 @Table(name = "tb_product")
@@ -33,10 +36,8 @@ public class Product implements Serializable {
 	private Set<Category> categories = new HashSet<>();
 	//Sobre a anotation 'JoinTable': Nela eu declaro o nome da tabela de associação e as chaves estrangeiras entre as tabelas envolvidas
 
-	// @JsonIgnore
-	// @OneToMany(mappedBy = "items"
-	// JoinColumn(name = items_id)
-	// Private List<Order> orders = new ArrayList<>();
+	@OneToMany(mappedBy = "id.product")
+	private Set<OrderItem> items = new HashSet<>();
 
 	public Product() {
 	}
@@ -94,6 +95,14 @@ public class Product implements Serializable {
 		return categories;
 	}
 
+	@JsonIgnore
+	public Set<Order> getOrders() {
+		Set<Order> set = new HashSet<>();
+		for (OrderItem x : items) {
+			set.add(x.getOrder());
+		}
+		return set;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
