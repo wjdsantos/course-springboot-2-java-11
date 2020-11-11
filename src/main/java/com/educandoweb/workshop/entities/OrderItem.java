@@ -68,6 +68,10 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 
+	public Double getSubTotal() {  //No caso na plataforma Java Enterprise o que vale para aparecer no Jason, é o 'get', por isso foi nomeado como 'getSubTotal'
+		return price * quantity;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -35,7 +35,7 @@ public class Order implements Serializable {
 						//Para dizer explicitamente que eu estou gravando no Banco um número inteiro
 						//Somente internamente, mas para o mundo exterior continuar sendo tipo 'OrderStatus'
 	
-	@ManyToOne  //Anotation para dizer que é chave extrangeira
+	@ManyToOne  //Anotation para dizer que é chave extrangeira na relação 'muitos para um'
 	@JoinColumn(name = "client_id")  //Aqui o nome da chave extrangeira
 	private User client;
 	
@@ -100,6 +100,14 @@ public class Order implements Serializable {
 
 	public Set<OrderItem> getItems() {
 		return items;
+	}
+	
+	public Double getTotal() {
+		double sum = 0.0;
+		for (OrderItem x : items) {
+			sum += x.getSubTotal();
+		}
+		return sum;
 	}
 	
 	@Override
