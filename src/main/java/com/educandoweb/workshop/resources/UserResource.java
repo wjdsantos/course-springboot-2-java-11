@@ -1,13 +1,17 @@
 package com.educandoweb.workshop.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.educandoweb.workshop.entities.User;
 import com.educandoweb.workshop.services.UserService;
@@ -33,4 +37,10 @@ public class UserResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@PostMapping //Notation que indica que vamos inserir um novo recurso - Esse método irá receber um método posto do http
+	public ResponseEntity<User> insert(@RequestBody User obj) {  //Pra dizer que esse objeto ele vai chegar no modo Json na hora de fazer a requisição, e 
+		obj = service.insert(obj);								// esse Json vai desserializado para meu objeto User, eu tenho que colocar um 'notation @RequestBody'
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).body(obj);
+	}
 }
